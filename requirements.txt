@@ -1,0 +1,17 @@
+torch
+transformers
+datasets
+indic-nlp-library
+sentencepiece
+evaluate
+sacrebleu
+rouge-score
+scikit-learn
+pandas
+numpy
+pyyaml
+streamlit
+plotly
+tqdm
+loguru
+python-dotenv

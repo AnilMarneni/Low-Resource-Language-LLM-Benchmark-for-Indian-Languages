@@ -1,0 +1,21 @@
+tasks:
+  summarization:
+    type: "generation"
+    metrics: ["rouge1", "rouge2", "rougeL"]
+    max_new_tokens: 128
+    prompt_template: "Summarize the following text in two sentences:\n\n{text}\n\nSummary:"
+  qa:
+    type: "generation"
+    metrics: ["f1", "exact_match"]
+    max_new_tokens: 64
+    prompt_template: "Based on the following context, answer the question.\n\nContext: {context}\n\nQuestion: {question}\n\nAnswer:"
+  sentiment:
+    type: "classification"
+    metrics: ["accuracy", "macro_f1"]
+    max_new_tokens: 16
+    prompt_template: "Classify the sentiment of the following text as Positive, Negative, or Neutral.\n\nText: {text}\n\nSentiment:"
+  translation:
+    type: "generation"
+    metrics: ["sacrebleu"]
+    max_new_tokens: 256
+    prompt_template: "Translate the following text to {target_lang}:\n\n{text}\n\nTranslation:"

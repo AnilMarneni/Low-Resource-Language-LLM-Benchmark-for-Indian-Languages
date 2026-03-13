@@ -1,0 +1,17 @@
+models:
+  llama_3_8b_instruct:
+    hf_path: "meta-llama/Llama-3-8B-Instruct"
+    dtype: "bfloat16"
+    device_map: "auto"
+  mistral_7b_instruct:
+    hf_path: "mistralai/Mistral-7B-Instruct-v0.1"
+    dtype: "bfloat16"
+    device_map: "auto"
+  gemma_7b_it:
+    hf_path: "google/gemma-7b-it"
+    dtype: "bfloat16"
+    device_map: "auto"
+  indicbert_v2:
+    hf_path: "ai4bharat/IndicBERTv2"
+    dtype: "float32"
+    device_map: "auto"

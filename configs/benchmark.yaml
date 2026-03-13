@@ -1,0 +1,7 @@
+benchmark:
+  languages: ["te", "kn", "mr", "ta"] # te=Telugu, kn=Kannada, mr=Marathi, ta=Tamil
+  samples_per_task: 3000
+  batch_size: 8
+  seed: 42
+  results_dir: "results/benchmarks"
+  predictions_dir: "results/predictions"
