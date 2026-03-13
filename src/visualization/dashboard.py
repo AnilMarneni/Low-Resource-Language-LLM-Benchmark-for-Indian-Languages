@@ -49,32 +49,33 @@ def main():
                 params = "7B"
             local_models.append({'name': m_name, 'color': color, 'params': params})
     
-    # Render the Onyx Navbar exactly
-    nav_html = """
+    # Render the Navbar exactly
+    import textwrap
+    nav_html = textwrap.dedent("""
     <div class="onyx-nav">
         <div class="onyx-logo">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2L2 12L12 22L22 12L12 2Z" fill="#111827"/>
                 <path d="M12 7L7 12L12 17L17 12L12 7Z" fill="#FFFFFF"/>
             </svg>
-            onyx
+            Pragya
         </div>
         <div class="onyx-menu">
-            <span>Product ⌄</span>
-            <span>Resources ⌄</span>
-            <span>Company ⌄</span>
-            <span>Pricing</span>
+            <span>Leaderboard ⌄</span>
+            <span>Methodology ⌄</span>
+            <span>Submit Model ⌄</span>
+            <span>API</span>
         </div>
         <div class="onyx-actions">
             <div style="display:flex; align-items:center; gap:6px; font-weight: 600; font-size: 0.9rem; color: #111827; background:#F3F4F6; padding:0.2rem 0.6rem; border-radius:12px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="#111827"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.379.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                17k
+                12k
             </div>
-            <div class="onyx-btn-outline">Try for Free</div>
-            <div class="onyx-btn-solid">Book a Demo</div>
+            <div class="onyx-btn-outline">Read Paper</div>
+            <div class="onyx-btn-solid">Download Data</div>
         </div>
     </div>
-    """
+    """)
     
     date_str = datetime.now().strftime("%Y-%m-%d")
     
@@ -107,11 +108,11 @@ def main():
     b_tier_models.extend(local_models)
     
     # Raw HTML for Main Body mapping the tiers
-    main_html = f"""
+    main_html = textwrap.dedent(f"""
     <div class="main-content">
-        <div class="hero-subtitle">Best LLMs — 2026 Rankings</div>
-        <div class="hero-title">LLM Leaderboard</div>
-        <div class="hero-desc">The definitive ranking of every major LLM — open and closed source — compared across reasoning, coding, math, agentic, software engineering, and chat benchmarks.</div>
+        <div class="hero-subtitle">Indic LLM Benchmarks — 2026 Rankings</div>
+        <div class="hero-title">Pragya Leaderboard</div>
+        <div class="hero-desc">The definitive ranking of every major LLM — open and closed source — compared across low-resource Indian languages (Telugu, Kannada, etc.) for reasoning, translation, and chat tasks.</div>
         
         <div class="author-line">
             <img src="https://ui-avatars.com/api/?name=AI&background=111827&color=fff&rounded=true" width="22" height="22" style="border-radius: 50%;"/>
@@ -119,22 +120,22 @@ def main():
         </div>
         
         <div class="pill-container">
-            <div class="pill-btn">Open Source LLM Leaderboard <span style="color:#9CA3AF;">→</span></div>
-            <div class="pill-btn">Self-Hosted LLM Leaderboard <span style="color:#9CA3AF;">→</span></div>
-            <div class="pill-btn">Best LLM for Coding <span style="color:#9CA3AF;">→</span></div>
+            <div class="pill-btn">Indic LLM Leaderboard <span style="color:#9CA3AF;">→</span></div>
+            <div class="pill-btn">Self-Hosted Indic Rank <span style="color:#9CA3AF;">→</span></div>
+            <div class="pill-btn">Best LLM for Translation <span style="color:#9CA3AF;">→</span></div>
         </div>
         
         <div class="tabs-container">
             <div class="tab-group">
                 <div class="tab active">Overall</div>
-                <div class="tab">Coding</div>
-                <div class="tab">Math</div>
-                <div class="tab">Chat</div>
+                <div class="tab">Translation</div>
+                <div class="tab">Summarization</div>
+                <div class="tab">Sentiment</div>
                 <div class="tab">Reasoning</div>
-                <div class="tab">Agentic</div>
+                <div class="tab">Q&A</div>
             </div>
             <div class="filter-group">
-                <div class="filter-btn">Medium</div>
+                <div class="filter-btn">7B-14B</div>
                 <div class="filter-btn">Large</div>
             </div>
         </div>
@@ -160,7 +161,7 @@ def main():
             </div>
         </div>
     </div>
-    """
+    """)
     
     # Inject Layout
     st.markdown(nav_html, unsafe_allow_html=True)
