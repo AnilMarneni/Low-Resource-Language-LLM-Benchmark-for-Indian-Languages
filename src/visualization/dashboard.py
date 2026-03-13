@@ -58,7 +58,7 @@ def main():
                 <path d="M12 2L2 12L12 22L22 12L12 2Z" fill="#111827"/>
                 <path d="M12 7L7 12L12 17L17 12L12 7Z" fill="#FFFFFF"/>
             </svg>
-            Pragya
+            Pranay
         </div>
         <div class="onyx-menu">
             <span>Leaderboard ⌄</span>
@@ -111,7 +111,7 @@ def main():
     main_html = textwrap.dedent(f"""
     <div class="main-content">
         <div class="hero-subtitle">Indic LLM Benchmarks — 2026 Rankings</div>
-        <div class="hero-title">Pragya Leaderboard</div>
+        <div class="hero-title">Pranay Leaderboard</div>
         <div class="hero-desc">The definitive ranking of every major LLM — open and closed source — compared across low-resource Indian languages (Telugu, Kannada, etc.) for reasoning, translation, and chat tasks.</div>
         
         <div class="author-line">
