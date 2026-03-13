@@ -7,10 +7,21 @@ import pandas as pd
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from src.visualization.plots import load_latest_benchmark_csv, plot_task_performance, plot_language_breakdown
 
+def load_local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 def main():
     st.set_page_config(page_title="Indic LLM Benchmark Dashboard", page_icon="📊", layout="wide")
     
-    st.title("📊 Low-Resource Indic Languages LLM Benchmark")
+    # Inject Futuristic CSS
+    css_path = os.path.join(os.path.dirname(__file__), "style.css")
+    if os.path.exists(css_path):
+        load_local_css(css_path)
+    else:
+        log.warning("Futuristic CSS missing, using Streamlit default.")
+    
+    st.title("📊 Indic LLM Benchmark")
     st.markdown("Interactive dashboard analyzing Large Language Model performance on Indian Low-Resource Languages.")
 
     df = load_latest_benchmark_csv(results_dir="results/benchmarks")
@@ -23,13 +34,34 @@ def main():
     view_mode = st.sidebar.radio("View Mode:", ["Overview", "Task Analysis", "Language Analysis"])
     
     # Metrics display
-    st.header("Overall Run Information")
+    st.markdown("<h2>Overall Run Information</h2>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
-    col1.metric("Models Evaluated", len(df["Model"].unique()))
-    col2.metric("Languages Tested", len(df["Language"].unique()))
-    col3.metric("Tasks Completed", len(df["Task"].unique()))
     
-    st.divider()
+    with col1:
+        st.markdown(f'''
+        <div class="glass-metric-card">
+            <div class="metric-title">Models Evaluated</div>
+            <div class="metric-value">{len(df["Model"].unique())}</div>
+        </div>
+        ''', unsafe_allow_html=True)
+        
+    with col2:
+         st.markdown(f'''
+        <div class="glass-metric-card">
+            <div class="metric-title">Languages Tested</div>
+            <div class="metric-value">{len(df["Language"].unique())}</div>
+        </div>
+        ''', unsafe_allow_html=True)
+         
+    with col3:
+         st.markdown(f'''
+        <div class="glass-metric-card">
+            <div class="metric-title">Tasks Completed</div>
+            <div class="metric-value">{len(df["Task"].unique())}</div>
+        </div>
+        ''', unsafe_allow_html=True)
+    
+    st.markdown("<br><hr style='border:1px solid rgba(0, 240, 255, 0.2);'><br>", unsafe_allow_html=True)
 
     if view_mode == "Overview":
         st.subheader("Raw Benchmark Data")

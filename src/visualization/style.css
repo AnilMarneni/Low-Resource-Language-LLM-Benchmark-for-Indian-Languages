@@ -1,0 +1,151 @@
+/* Google Fonts Injection */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* Base Theme Defines */
+:root {
+    --bg-deep-space: #0B0F19;
+    --neon-cyan: #00F0FF;
+    --cyber-purple: #A200FF;
+    --acid-green: #39FF14;
+    --glass-bg: rgba(16, 21, 38, 0.65);
+    --glass-border: rgba(0, 240, 255, 0.2);
+    --text-primary: #E0E6ED;
+    --text-muted: #8A9BB3;
+}
+
+/* Global Typography & Background Override */
+.stApp {
+    background-color: var(--bg-deep-space) !important;
+    background-image:
+        radial-gradient(circle at 15% 50%, rgba(162, 0, 255, 0.08), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.08), transparent 25%);
+    background-attachment: fixed;
+    font-family: 'Space Grotesk', sans-serif !important;
+    color: var(--text-primary);
+}
+
+/* Base text elements */
+p,
+li,
+span,
+div.stMarkdown {
+    font-family: 'Space Grotesk', sans-serif !important;
+}
+
+/* Headers - HUD Style */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Orbitron', sans-serif !important;
+    color: var(--neon-cyan) !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+/* Specific main title glow */
+h1 {
+    font-weight: 900;
+    background: -webkit-linear-gradient(45deg, var(--neon-cyan), var(--cyber-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+    /* Let the gradient pop */
+    border-bottom: 2px solid var(--glass-border);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+/* Streamlit Sidebar Glassmorphism */
+[data-testid="stSidebar"] {
+    background: rgba(11, 15, 25, 0.85) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-right: 1px solid var(--glass-border);
+}
+
+[data-testid="stSidebar"] * {
+    font-family: 'Space Grotesk', sans-serif !important;
+}
+
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2 {
+    font-family: 'Orbitron', sans-serif !important;
+    color: var(--cyber-purple) !important;
+}
+
+/* Custom Metric Cards (To replace st.metric) */
+.glass-metric-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 10px 0px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    transform: skewX(-25deg);
+    transition: all 0.75s;
+}
+
+.glass-metric-card:hover::before {
+    left: 200%;
+}
+
+.glass-metric-card:hover {
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(162, 0, 255, 0.1);
+    transform: translateY(-5px);
+}
+
+.metric-title {
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.metric-value {
+    font-family: 'Orbitron', sans-serif;
+    color: #FFFFFF;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+/* Plotly Chart Container Glassmorphism Overrides */
+.stPlotlyChart {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+
+/* Dataframe Styling */
+.stDataFrame {
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 8px;
+    overflow: hidden;
+}
