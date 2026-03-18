@@ -54,7 +54,7 @@ def plot_task_performance(df: pd.DataFrame, task: str) -> go.Figure | None:
         title=f'{task.title()} Performance ({metric.upper()})',
         labels={metric: f"Score ({metric})"},
         template="plotly_dark",
-        color_discrete_sequence=["#00F0FF", "#A200FF", "#39FF14"]
+        color_discrete_sequence=["#818CF8", "#A78BFA", "#34D399"]
     )
     
     fig.update_layout(
@@ -62,8 +62,8 @@ def plot_task_performance(df: pd.DataFrame, task: str) -> go.Figure | None:
         yaxis_title="Score",
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(family="Space Grotesk, sans-serif", color="#E0E6ED"),
-        title_font=dict(family="Orbitron, sans-serif", color="#00F0FF", size=20)
+        font=dict(family="Inter, sans-serif", color="#E0E6ED"),
+        title_font=dict(family="Inter, sans-serif", color="#F8FAFC", size=18)
     )
     return fig
 
@@ -102,13 +102,13 @@ def plot_language_breakdown(df: pd.DataFrame, language: str) -> go.Figure | None
         barmode="group",
         title=f"Cross-Task Performance Breakdown for '{language.upper()}'",
         template="plotly_dark",
-        color_discrete_sequence=["#A200FF", "#00F0FF", "#39FF14"]
+        color_discrete_sequence=["#A78BFA", "#818CF8", "#34D399"]
     )
     
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(family="Space Grotesk, sans-serif", color="#E0E6ED"),
-        title_font=dict(family="Orbitron, sans-serif", color="#A200FF", size=20)
+        font=dict(family="Inter, sans-serif", color="#E0E6ED"),
+        title_font=dict(family="Inter, sans-serif", color="#F8FAFC", size=18)
     )
     return fig

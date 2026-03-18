@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: llm_indic_benchmark
+Version: 0.1.0
+Summary: Benchmarking Framework for LLMs on Low-Resource Indian Languages
+Author: AI Researcher
+Dynamic: author
+Dynamic: summary
