@@ -15,3 +15,5 @@ plotly
 tqdm
 loguru
 python-dotenv
+fastapi
+uvicorn

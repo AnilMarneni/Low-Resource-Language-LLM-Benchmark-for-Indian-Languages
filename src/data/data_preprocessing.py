@@ -38,16 +38,16 @@ class DataPreprocessor:
         if self.normalizer:
             try:
                 text = self.normalizer.normalize(text)
-            except Exception:
-                pass
+            except Exception as e:
+                log.warning(f"Error normalizing unicode for {self.indic_lang}: {e}")
         return text
 
     def segment_sentences(self, text: str) -> list[str]:
         if sentence_tokenize and self.indic_lang in self.indic_lang_map.values():
             try:
                 return sentence_tokenize.sentence_split(text, lang=self.indic_lang)
-            except Exception:
-                pass
+            except Exception as e:
+                log.warning(f"Error segmenting sentences for {self.indic_lang}: {e}")
         # Fallback simple split
         return text.split('।') if '।' in text else text.split('.')
 
@@ -55,8 +55,8 @@ class DataPreprocessor:
         if indic_tokenize and self.indic_lang in self.indic_lang_map.values():
             try:
                 return indic_tokenize.trivial_tokenize(text)
-            except Exception:
-                pass
+            except Exception as e:
+                log.warning(f"Error tokenizing for {self.indic_lang}: {e}")
         return text.split()
 
     def clean_text(self, text: str) -> str:

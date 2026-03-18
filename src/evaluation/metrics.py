@@ -63,9 +63,9 @@ def compute_qa_metrics(predictions: list[str], references: list[str]) -> dict:
             f1_scores.append(0.0)
             continue
             
-        precision = len(common) / len(pred_words)
-        recall = len(common) / len(ref_words)
-        f1 = 2 * (precision * recall) / (precision + recall)
+        precision = len(common) / max(len(pred_words), 1)
+        recall = len(common) / max(len(ref_words), 1)
+        f1 = 2 * (precision * recall) / max(precision + recall, 1e-9)
         f1_scores.append(f1)
         
     return {
