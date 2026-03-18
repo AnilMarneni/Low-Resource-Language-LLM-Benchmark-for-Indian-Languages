@@ -15,3 +15,7 @@ models:
     hf_path: "ai4bharat/IndicBERTv2"
     dtype: "float32"
     device_map: "auto"
+  gpt2_tiny:
+    hf_path: "sshleifer/tiny-gpt2"
+    dtype: "float32"
+    device_map: "cpu"
