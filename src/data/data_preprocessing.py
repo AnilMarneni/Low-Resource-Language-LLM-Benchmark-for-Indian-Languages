@@ -17,7 +17,12 @@ class DataPreprocessor:
             "te": "te",
             "kn": "kn",
             "mr": "mr",
-            "ta": "ta"
+            "ta": "ta",
+            "hi": "hi",
+            "bn": "bn",
+            "gu": "gu",
+            "pa": "pa",
+            "ml": "ml"
         }
         self.indic_lang = self.indic_lang_map.get(language, "en")
         

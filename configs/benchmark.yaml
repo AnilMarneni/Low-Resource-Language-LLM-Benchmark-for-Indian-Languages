@@ -1,5 +1,5 @@
 benchmark:
-  languages: ["te", "kn", "mr", "ta"] # te=Telugu, kn=Kannada, mr=Marathi, ta=Tamil
+  languages: ["te", "kn", "mr", "ta", "hi", "bn", "gu", "pa", "ml"] # Extrapolated Indic Languages
   samples_per_task: 3000
   batch_size: 8
   seed: 42
