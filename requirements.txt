@@ -17,3 +17,5 @@ loguru
 python-dotenv
 fastapi
 uvicorn
+bert_score
+stanza

@@ -11,6 +11,8 @@ from src.data.dataset_loader import BenchmarkDataLoader
 from src.models.model_loader import ModelLoader
 from src.models.inference_engine import InferenceEngine
 from src.evaluation.metrics import compute_metrics
+from src.evaluation.complexity_analyzer import ComplexityAnalyzer
+from src.utils.progress_monitor import ProgressMonitor
 
 def run_benchmark(models_list: list[str], tasks_list: list[str], config_dir="configs"):
     log.info(f"Starting Multi-Model Multi-Task Benchmark")
@@ -30,8 +32,12 @@ def run_benchmark(models_list: list[str], tasks_list: list[str], config_dir="con
     os.makedirs(results_dir, exist_ok=True)
     
     data_loader = BenchmarkDataLoader()
+    complexity_analyzer = ComplexityAnalyzer(languages)
+    monitor = ProgressMonitor()
+    monitor.reset()
     
     all_results = []
+    all_sample_results = [] # For research-level granular analysis
 
     # Loop through each model requested by user
     for model_id in models_list:
@@ -58,6 +64,12 @@ def run_benchmark(models_list: list[str], tasks_list: list[str], config_dir="con
                 continue
                 
             for lang in languages:
+                monitor.update(
+                    current_model=model_id,
+                    current_task=task,
+                    current_lang=lang,
+                    status="processing"
+                )
                 log.info(f"--- Running: [{model_id}] -> Task: [{task}] -> Lang: [{lang}] ---")
                 
                 # Fetch formatted dataset
@@ -89,8 +101,13 @@ def run_benchmark(models_list: list[str], tasks_list: list[str], config_dir="con
                         preds.append(data.get("prediction", ""))
                         refs.append(data.get("reference_output", ""))
                         
-                log.info(f"Computing metrics for {len(preds)} samples...")
-                task_metrics = compute_metrics(task, preds, refs)
+                log.info(f"Computing metrics and complexity for {len(preds)} samples...")
+                
+                # Analyze Complexity of the references (ground truth)
+                complexity_metrics = complexity_analyzer.analyze_samples(refs, lang)
+                
+                # Evaluate metrics on generated predictions
+                task_metrics = compute_metrics(task, preds, refs, lang=lang)
                 
                 # Format into master result object
                 run_res = {
@@ -100,7 +117,25 @@ def run_benchmark(models_list: list[str], tasks_list: list[str], config_dir="con
                     "Samples": len(preds)
                 }
                 run_res.update(task_metrics)
+                run_res.update(complexity_metrics)
                 all_results.append(run_res)
+                
+                # Store sample-level results for depth analysis
+                for i, (p, r) in enumerate(zip(preds, refs)):
+                    s_comp = complexity_analyzer.get_sample_complexity(r, lang)
+                    s_metrics = compute_metrics(task, [p], [r], lang=lang)
+                    
+                    sample_res = {
+                        "Model": model_id,
+                        "Task": task,
+                        "Language": lang,
+                        "Sample_Index": i,
+                        "Prediction": p,
+                        "Reference": r
+                    }
+                    sample_res.update(s_metrics)
+                    sample_res.update(s_comp)
+                    all_sample_results.append(sample_res)
                 
                 log.info(f"Finished {model_id} - {task} - {lang}: {task_metrics}")
 
@@ -118,6 +153,15 @@ def run_benchmark(models_list: list[str], tasks_list: list[str], config_dir="con
         out_csv = os.path.join(results_dir, f"benchmark_summary_{timestamp}.csv")
         df.to_csv(out_csv, index=False)
         log.info(f"Aggregated Benchmark Metrics saved to {out_csv}")
+        monitor.complete()
+        
+        # Save sample-level results for research visualization
+        if all_sample_results:
+            sample_df = pd.DataFrame(all_sample_results)
+            sample_csv = os.path.join(results_dir, f"sample_level_metrics_{timestamp}.csv")
+            sample_df.to_csv(sample_csv, index=False)
+            log.info(f"Sample-level metrics saved to {sample_csv}")
+
         print("\n--- Benchmark Final Summary ---")
         print(df.to_string())
     else:

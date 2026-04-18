@@ -1,5 +1,5 @@
 benchmark:
-  languages: ["te", "kn", "mr", "ta", "hi", "bn", "gu", "pa", "ml"] # Extrapolated Indic Languages
+  languages: ["te", "ta", "kn", "ml", "mr", "hi"]
   samples_per_task: 2
   batch_size: 8
   seed: 42
