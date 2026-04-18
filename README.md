@@ -1,91 +1,106 @@
-# 📊 Benchmarking LLMs on Low-Resource Indian Languages
+# 📊 Indic LLM Benchmark: Low-Resource Language Tracking Platform
 
-This repository provides a modular, reproducible, and robust benchmarking framework to evaluate Large Language Models (LLMs) on NLP tasks in low-resource Indian languages (e.g., Telugu, Kannada, Marathi, Tamil). 
+This repository provides a modular, professional-grade benchmarking framework for evaluating Large Language Models (LLMs) on NLP tasks across 6 low-resource Indian languages: **Telugu, Tamil, Kannada, Malayalam, Marathi, and Hindi**.
 
-It is designed following best practices used in academic NLP research, offering dynamic model instantiation, unified data preprocessing via IndicNLP, and an interactive Streamlit visualization dashboard.
+Developed as part of a research internship, the platform combines a high-performance **FastAPI backend** with a stunning **Next.js research portal** to visualize model capabilities, sentence complexity, and semantic similarity metrics.
 
 ## 🚀 Key Features
-* **Modular Architecture:** Easy configuration via YAML (`configs/`).
-* **Multi-Task Support:** Summarization, Question Answering, Sentiment Analysis, and Machine Translation.
-* **Unified Pipeline:** End-to-end dataset scraping, pre-processing, and HF DataLoaders.
-* **Multi-Model Inference:** Generative causal LMs safely batched using `device_map="auto"`.
-* **Standardized Evaluation:** Automated ROUGE, SacreBLEU, F1, and Accuracy computation.
-* **Interactive Visualizations:** High-quality Plotly graphics powered by Streamlit and Jupyter Notebooks.
+*   **Professional Dashboard**: Live, interactive charts using Recharts and Primereact, proxied for production stability.
+*   **Automated Research Pipeline**: End-to-end flow from data seeding to model evaluation and metric aggregation.
+*   **Multi-Model Engine**: Support for Llama 3, Mistral, Gemma, and custom Indic architectures.
+*   **Deep-Dive Analytics**: Correlates linguistic complexity (sentence length, token depth) with model performance.
+*   **Hardened Architecture**: Reverse-proxy configurations and validated JSON error handling for maximum uptime.
+
+---
 
 ## ⚙️ Installation & Setup
 
-1. **Clone the repository:**
-```bash
-git clone https://github.com/AnilMarneni/Low-Resource-Language-LLM-Benchmark-for-Indian-Languages.git
-cd Low-Resource-Language-LLM-Benchmark-for-Indian-Languages
-```
-
-2. **Create a virtual environment and load dependencies:**
+### 1. Backend Setup
 ```bash
 python -m venv venv
-# On Windows
-.\venv\Scripts\activate
-# On Linux/Mac
-source venv/bin/activate
+.\venv\Scripts\activate  # Windows
+source venv/bin/activate # Linux/Mac
 
-pip install -e .
 pip install -r requirements.txt
-pip install accelerate # required for memory-mapping large models
+pip install -e .
 ```
 
-3. **(Optional) Setup environment variables:**
-To download gated HuggingFace models such as `meta-llama/Llama-3-8B-Instruct`, copy the environment template and insert your keys:
+### 2. Frontend Setup
 ```bash
-cp .env.example .env
+cd frontend
+npm install
 ```
 
-## 🛠 Usage
+---
 
-### 1. Build the Dataset
-Downloads the raw datasets and constructs a schema-compliant JSONL index via IndicNLP processors.
+## 🛠 Usage: The Automated Pipeline
+
+The platform is designed for fully automated data population. Follow these three steps to hydrate the dashboard with fresh research results:
+
+### Step 1: Research Data Seeding
+Generates raw simulated research corpora for the target languages.
 ```bash
 python scripts/download_data.py
+```
+
+### Step 2: Dataset Building
+Constructs schema-compliant JSONL shards with IndicNLP preprocessing.
+```bash
 python scripts/build_datasets.py
 ```
 
-### 2. Run the Benchmarks
-The central runner maps user requested models to task metrics across all low-resource languages. 
-Parameters must match those designated in `configs/models.yaml` and `configs/tasks.yaml`.
+### Step 3: Core Benchmarking
+Executes model inference and computes metrics (ROUGE, BERTScore, Complexity).
 ```bash
-python src/evaluation/benchmark_runner.py --models llama_3_8b_instruct mistral_7b_instruct --tasks summarization qa translation sentiment
+python src/evaluation/benchmark_runner.py --models gpt2_tiny --tasks summarization sentiment
 ```
 
-### 3. Analyze Results Interactive Dashboard
-Displays the benchmark aggregation `.csv` file geographically, mapping languages and model capabilities.
+---
+
+## 🌐 Launching the Portal
+
+### 1. Start the API (Port 8000)
 ```bash
-streamlit run src/visualization/dashboard.py
+.\venv\Scripts\python -m uvicorn src.api.main:app --reload
 ```
+
+### 2. Start the Dashboard (Port 3000)
+```bash
+cd frontend
+npm run dev
+```
+Navigate to `http://localhost:3000` to view the **Indic Model Leaderboard**.
+
+---
+
+## 📈 Data Ingestion Guide
+
+The portal automatically monitors `results/benchmarks/` for the latest CSV artifacts.
+
+*   **Leaderboard**: To add results, drop a `benchmark_summary_[timestamp].csv` file. Required columns: `Model`, `Task`, `Language`, `Samples`.
+*   **Deep-Dive**: To populate scatter plots, use `sample_level_metrics_[timestamp].csv` with columns for `Prediction`, `Reference`, and `Complexity`.
+
+---
 
 ## 📁 Project Architecture
 ```text
 llm_indic_benchmark/
 ├── configs/                  # YAML configurations (models, tasks, pipeline)
 ├── data/
-│   ├── raw/                  # Scraped internet corpora  
-│   └── processed/            # Serialized JSONL standardized schemas
-├── notebooks/
-│   └── analysis.ipynb        # Researcher sandbox for custom PCA / t-tests
+│   ├── raw/                  # Seeded research corpora  
+│   └── processed/            # Structured JSONL Indic shards
+├── frontend/                 # Next.js Research Portal (Port 3000)
 ├── results/
-│   ├── predictions/          # Raw localized JSON model outputs 
-│   └── benchmarks/           # Standardized metric CSV outputs
-├── scripts/
-│   └── build_datasets.py     # Aggregation algorithms
+│   ├── predictions/          # Raw localized model outputs 
+│   └── benchmarks/           # Aggregated metric CSVs (Dashboard Source)
+├── scripts/                  # Data staging and building utilities
 ├── src/
-│   ├── data/                 # IndicNLP data normalization and HTML cleaners
-│   ├── evaluation/           # Evaluating wrappers (accuracy, ROUGE)
-│   ├── models/               # Torch generators and dataloading
-│   ├── tasks/                # Granular task wrappers mapped for inference
-│   ├── visualization/        # Plotly logic and Streamlit engine
+│   ├── api/                  # FastAPI Backend (Port 8000)
+│   ├── evaluation/           # Metric computation and complexity analysis
+│   ├── models/               # Inference engine and model loaders
 │   └── utils/                # Logging and Config Parsers
-├── .env.example              # Secret key placeholder
-├── setup.py                  # Module package initialization
-└── requirements.txt          # Python environments constraints
+└── requirements.txt          # Python environment constraints
 ```
 
 ## 📝 License
-This benchmark repository is intended for academic research use. Please adhere to the ethical usage guidelines outlined by the respective open-source model providers (Llama 3, Mistral, Gemma, AI4Bharat).
+This framework is intended for academic research use. Adhere to ethical usage guidelines for open-source model providers (Meta, Mistral, Google).
