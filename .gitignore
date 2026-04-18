@@ -11,3 +11,8 @@ data/processed/
 results/
 .ipynb_checkpoints/
 .env
+.pytest_cache/
+.next/
+dist/
+build/
+*.egg-info/
